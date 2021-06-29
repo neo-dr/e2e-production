@@ -32,7 +32,7 @@ jobs:
         run: sudo apt install wget curl jq
       - name: install akash binary
         run: |-
-          wget $(curl -H "Authorization: token ${{secrets.GITHUB_TOKEN}}" -s https://api.github.com/repos/ovrclk/akash/releases/latest | jq -r ".assets[] | select(.name | test(\"linux_amd64.deb\")) | .browser_download_url") -O akash.deb
+          wget $(curl -s https://api.github.com/repos/ovrclk/akash/releases/latest | jq -r ".assets[] | select(.name | test(\"linux_amd64.deb\")) | .browser_download_url") -O akash.deb
           sudo dpkg -i akash.deb
       - name: import key
         run: |-
