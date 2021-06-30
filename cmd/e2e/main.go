@@ -170,7 +170,7 @@ func main() {
 
 			defer func() {
 				depTeardown <- struct{}{}
-				<- depCreated
+				<-depCreated
 			}()
 
 			go func() {
@@ -180,9 +180,14 @@ func main() {
 
 				<-depTeardown
 
-				log.Info("closing deployment", "dseq", dd.DeploymentID)
-				if e := TxCloseDeployment(clientCtx, cmd.Flags(), dd); e != nil {
-					log.Error("closing deployment", "dseq", dd.DeploymentID, "err", e)
+				skipTeardown, _ := cmd.Flags().GetBool(FlagSkipTearDown)
+				if skipTeardown {
+					log.Info("skipping deployment close")
+				} else {
+					log.Info("closing deployment", "dseq", dd.DeploymentID)
+					if e := TxCloseDeployment(clientCtx, cmd.Flags(), dd); e != nil {
+						log.Error("closing deployment", "dseq", dd.DeploymentID, "err", e)
+					}
 				}
 
 				depCreated <- nil
@@ -262,6 +267,8 @@ func main() {
 	cmd.Flags().String(flags.FlagChainID, "", "The network chain ID")
 	cmd.Flags().Duration(FlagTimeout, 300*time.Second, "The max amount of time to wait for deployment status checking process")
 	cmd.Flags().Duration(FlagTick, 500*time.Millisecond, "The time interval at which deployment status is checked")
+
+	cmd.Flags().Bool(FlagSkipTearDown, false, "Skip the teardown at the end of the e2e process")
 
 	cmd.PersistentFlags().String(flags.FlagFrom, "", "name or address of private key with which to sign")
 	if err := cmd.MarkPersistentFlagRequired(flags.FlagFrom); err != nil {

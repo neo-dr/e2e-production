@@ -25,7 +25,8 @@ const (
 	// FlagTimeout represents max amount of time for lease status checking process
 	FlagTimeout = "timeout"
 	// FlagTick represents time interval at which lease status is checked
-	FlagTick = "tick"
+	FlagTick         = "tick"
+	FlagSkipTearDown = "skip-teardown"
 )
 
 type httpStatus int
