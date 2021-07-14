@@ -23,6 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: neo-dr/e2e-production@master
+        with:
+          manifest: "manifest/akash-deploy.yaml"
+          skip-teardown: "asdf"
+          chain-id: "asdf"
+          keyring-backend: "asdf"
+          home: "asdf"
+          node: "asdf"
+          gas: "asdf"
+          from: "asdf"
       - name: import key
         run: |-
           echo "${{secrets.DEPLOY_KEY}}" > key.key
