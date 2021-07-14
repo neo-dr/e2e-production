@@ -24,8 +24,6 @@ jobs:
         image: gambitcajun/akash-e2e-runner:latest
     steps:
       - uses: actions/checkout@v2
-      - name: installing toolset
-        run: sudo apt install jq
       - name: import key
         run: |-
           echo "${{secrets.DEPLOY_KEY}}" > key.key
