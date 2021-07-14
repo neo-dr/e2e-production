@@ -6,7 +6,7 @@ on:
       - master
   repository_dispatch:
     types: deploy-sovryntor
-
+    
 env:
   AKASH_HOME: /home/runner/.akash
   AKASH_NODE: tcp://rpc0.mainnet.akash.network:26657
@@ -19,7 +19,9 @@ env:
   AKASH_KEYRING_BACKEND: test
 jobs:
   e2e-production-master:
-    runs-on: gambitcajun/akash-e2e-runner:latest
+    runs-on: ubuntu-latest
+    container:
+        image: gambitcajun/akash-e2e-runner:latest
     steps:
       - uses: actions/checkout@v2
       - name: installing toolset
