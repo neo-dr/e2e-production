@@ -1,5 +1,5 @@
 # action.yml
-name: 'Akash e2e deploy'
+name: 'akash-e2e-deploy'
 description: 'allows arbitrary user to use e2e if they pass the required secrets'
 inputs:
   manifest:
