@@ -25,19 +25,16 @@ jobs:
       - uses: neo-dr/e2e-production@master
         with:
           manifest: "manifest/akash-deploy.yaml"
-          skip-teardown: "asdf"
           chain-id: "asdf"
           keyring-backend: "asdf"
           home: "asdf"
           node: "asdf"
           gas: "asdf"
           from: "asdf"
-      - name: import key
         run: |-
           echo "${{secrets.DEPLOY_KEY}}" > key.key
           echo "${{secrets.DEPLOY_TOKEN}}" | akash keys import ${{env.AKASH_FROM}} key.key
           rm key.key
-      - name: import certificate
         run: echo "${{secrets.DEPLOY_CERT}}" > ${{env.AKASH_HOME}}/$(akash keys show ${{env.AKASH_FROM}} --output=json | jq -r ".address").pem
       - name: close all active deployments
         run: |-
