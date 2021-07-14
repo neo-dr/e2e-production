@@ -1,0 +1,43 @@
+# action.yml
+name: 'Akash e2e deploy'
+description: 'allows arbitrary user to use e2e if they pass the required secrets'
+inputs:
+  manifest:
+    description: 'YML/YAML Akash deployment manifest'
+    required: true
+  skip-tear-down:
+    description: 'Skip if you want to leave the infra stood up'
+    required: true
+    default: 'true'
+  chain-id:
+    description: 'Akash variable for chain id'
+    required: true
+  keyring-backend:
+    description: 'Akash variable for keyring-backend'
+    required: true
+  home:
+    description: 'Akash home directory'
+    required: true
+    default: '~/.akash'
+  node:
+    description: 'Akash node RPC url'
+    required: true
+  gas:
+    description: 'Akash gas price'
+    required: true
+    default: 'auto'
+  from:
+    description: 'Akash address this is from (your akt address)'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.manifest }}
+    - ${{ inputs.skip-teardown }}
+    - ${{ inputs.chain-id }}
+    - ${{ inputs.keyring-backend }}
+    - ${{ inputs.home }}
+    - ${{ inputs.node }}
+    - ${{ inputs.gas }}
+    - ${{ inputs.from }}
