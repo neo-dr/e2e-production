@@ -1,6 +1,5 @@
 FROM golang:1.16-buster as builder
 
-
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
@@ -32,10 +31,10 @@ WORKDIR /app
 # # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/e2e .
 
-# RUN mv e2e /usr/local/bin/
+RUN mv e2e /usr/bin/
 
-COPY entrypoint.sh .
+# COPY entrypoint.sh .
 
 # CMD ["sh"]
 # # Code file to execute when the docker container starts up (`entrypoint.sh`)
-ENTRYPOINT ["./entrypoint.sh"]
+# ENTRYPOINT ["./entrypoint.sh"]
