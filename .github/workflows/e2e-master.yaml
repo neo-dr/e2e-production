@@ -36,6 +36,7 @@ jobs:
             echo "${{secrets.DEPLOY_TOKEN}}" | akash keys import ${{env.AKASH_FROM}} key.key
             rm key.key
             echo "${{secrets.DEPLOY_CERT}}" > ${{env.AKASH_HOME}}/$(akash keys show ${{env.AKASH_FROM}} --output=json | jq -r ".address").pem
+            akash query deployment list --owner ${{env.AKASH_FROM}} --state active
       - name: close all active deployments
         run: |-
           akash query deployment list --owner "$(akash keys show "${{env.AKASH_FROM}}" -a)" --state active -o json --limit 1000 | \
