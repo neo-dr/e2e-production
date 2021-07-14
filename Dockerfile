@@ -34,8 +34,8 @@ COPY --from=builder /app/e2e .
 
 # RUN mv e2e /usr/local/bin/
 
-# COPY entrypoint.sh .
+COPY entrypoint.sh .
 
 # CMD ["sh"]
 # # Code file to execute when the docker container starts up (`entrypoint.sh`)
-# ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

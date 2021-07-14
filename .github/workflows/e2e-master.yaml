@@ -23,6 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: neo-dr/e2e-production@master
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          DEPLOY_CERT: ${{ secrets.DEPLOY_CERT }}
         with:
           manifest: "manifest/akash-deploy.yaml"
           chain-id: "asdf"
@@ -31,12 +35,6 @@ jobs:
           node: "asdf"
           gas: "asdf"
           from: "asdf"
-          run: |-
-            echo "${{secrets.DEPLOY_KEY}}" > key.key
-            echo "${{secrets.DEPLOY_TOKEN}}" | akash keys import ${{env.AKASH_FROM}} key.key
-            rm key.key
-            echo "${{secrets.DEPLOY_CERT}}" > ${{env.AKASH_HOME}}/$(akash keys show ${{env.AKASH_FROM}} --output=json | jq -r ".address").pem
-            akash query deployment list --owner ${{env.AKASH_FROM}} --state active
       - name: close all active deployments
         run: |-
           akash query deployment list --owner "$(akash keys show "${{env.AKASH_FROM}}" -a)" --state active -o json --limit 1000 | \
